@@ -1,0 +1,38 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+
+
+\title{Supplementary data}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+Statistical analyses of the different contaminants in North East
+Atlantic cod and haddock liver samples.  All analyses were performed
+using the \texttt{python} programming language.  Figures were created
+using \texttt{matplotlib}, and regression was performed using the
+\texttt{OLS} method from the \texttt{statsmodels} package.  The
+\texttt{pandas} library was used for data import and manipulation.
+
+Contamination level $C$ in each case as was modeled as a function of
+fish weight $w$ and year $y$.
+
+\begin{equation*}
+ln(C) \sim \alpha ln(w) + \beta y + k
+\end{equation*}
+
+
