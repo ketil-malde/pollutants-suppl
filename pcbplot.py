@@ -82,7 +82,7 @@ def plot_all(raw):
     ax[0,0].legend()
     plt.show()
 
-medians = { 'cod' : 1150, 'had' : 935 }
+medians = { 'cod' : 1150, 'haddock' : 935 }
     
 def plot2(fname,raw,c):
     # copy from plot1
@@ -115,7 +115,7 @@ def plot1(fname,raw,c):
     regr = LinearRegression().fit(ws,vs)
     pred = regr.predict(ws)
     r['resid'] = vs-pred
-    print(fname,cols[c],'Coef: ', regr.coef_, 'Incpt: ', regr.intercept_, "MSE: %.2f" % mean_squared_error(vs, pred), 'R²: %.2f' % r2_score(vs, pred))
+    print('%',fname,cols[c],'Coef: ', regr.coef_, 'Incpt: ', regr.intercept_, "MSE: %.2f" % mean_squared_error(vs, pred), 'R²: %.2f' % r2_score(vs, pred))
     
     fig, ax = plt.subplots(2,2,figsize=(12,9))
     for name, group in r.groupby('Year'):
@@ -141,7 +141,7 @@ def plot1(fname,raw,c):
 
     y0 = min(r['Year'])
     y1 = max(r['Year'])
-    [c0,c1] = regr.predict([[log(medians['fname']),y0],[log(medians['fname']),y1]])  # log w = 7
+    [c0,c1] = regr.predict([[log(medians[fname]),y0],[log(medians[fname]),y1]])  # log w = 7
     ax[1,0].plot([y0,y1],[c0,c1],linewidth=1,linestyle='dotted')
     
     ax[1,1].axhline(linewidth=0.7,color='black',linestyle='dotted')
@@ -149,7 +149,7 @@ def plot1(fname,raw,c):
 
     ax[0,0].legend()
     # fig.show()
-    fig.savefig(fname+"-all-"+cols[c]+".pdf", dpi=600)
+    fig.savefig(fname+"-all-"+cols[c]+".pdf", dpi=100)
 
 cod = load_data("cod.csv")
 had = load_data("had.csv")
@@ -161,7 +161,7 @@ def genplots():
         plot2("cod", cod, x)
         plot2("had", had, x)        
 
-genplots()
+# genplots()
 
 import numpy as np
 import statsmodels.api as sm
@@ -192,32 +192,37 @@ def linregs():
 # linregs()    
 
 def make_supplementary():
+    print("\\include{preamble}")
     for name,data in [("cod",cod), ("haddock",had)]:
         # read data
         for c in range(1,6):
             # generate figures
-            plot1(name, data, c)
             # do regression and output
             tex_add_fig(name,cols[c])
+            plot1(name, data, c)
             tex_open()
             linreg2(data,c)
-            tex_close()
+            tex_close(name,cols[c])
+    print("\\end{document}")
 
+    
 def tex_add_fig(fname,cname):
-    print("\section*{"+cname+", "+fname+"}")
-    print("\begin{figure}")
-    print("  \caption{Diagram showing log concentration of "+cname+"  measured in "+fname+" by fish weight (top left) and by year (bottom left).  Regression lines are plotted for each year class (above) and for a fish of median size (below).  The respective residuals are shown on the right."}
-    print("  \label{fig:"+fname+":"+cname+"}")
-    print("  \includegraphicx{"+fname+"-all-"+cname+".pdf}")
-    print("\end{figure}")
+    print("\\section*{"+cname+", "+fname+"}")
+    #print("\\begin{figure}")
+    print("  \\includegraphics[scale=0.5]{\""+fname+"-all-"+cname+"\"}")
+    # print("  \\label{fig:"+fname+":"+cname+"}")
+    print("Diagram showing log concentration of "+cname+"  measured in "+fname+" by fish weight (top left) and by year (bottom left).  Regression lines are plotted for each year class (above) and for a fish of median size (below).  The respective residuals are shown on the right.\n")
+    print("\\newpage")
+    #print("\\end{figure}")
 
 def tex_open():
-    print("\begin{figure}")
-    print("  \caption{Linear regression statistics from fitting log concentration of "+cname+" in "+fname+".")
-    print("\begin{verbatim}")
+    #print("\\begin{figure}")
+    print("\\begin{verbatim}")
 
-def tex_close():
-    print("\end{figure}")
-    print("\newpage")
+def tex_close(fname,cname):
+    print("\\end{verbatim}")
+    # print("\\end{figure}")
+    print("Linear regression statistics from fitting log concentration of "+cname+" in "+fname+".")
+    print("\\newpage")
 
 make_supplementary()
