@@ -83,9 +83,19 @@ def plot_all(raw):
     plt.show()
 
 medians = { 'cod' : 1150, 'haddock' : 935 }
-    
+
+# plot year by weight, color for contaminant levels
+def plot3(fname,raw,c):
+    r = raw[raw[cols[c]].notnull()]
+    ws = pandas.DataFrame({'W': log(r['weight']), 'Y': r['Year']})
+    vs = log(r[cols[c]])
+    fig = plt.figure(figsize=(6,4.5))
+    plt.scatter(ws.Y,ws.W,c=(1-vs),alpha=0.7)  # todo: normalize column
+    plt.show()
+
+   
+# Generate a single plot by year using non-log y-axis, regression for median size
 def plot2(fname,raw,c):
-    # copy from plot1
     r = raw[raw[cols[c]].notnull()]
     ws = pandas.DataFrame({'W': log(r['weight']), 'Y': r['Year']})
     vs = log(r[cols[c]])
