@@ -103,9 +103,9 @@ def plot2(fname,raw,c):
         xs.append(x)
         ys.append(exp(regr.predict([[log(medians[fname]),x]])[0]))
     plt.plot(xs,ys,alpha=0.7)
-    plt.suptitle(cols[c])
+    plt.suptitle(cols[c]+" ("+fname+")")
     plt.xlabel('Year')
-    plt.ylabel(cols[c]+" (µg/kg)")
+    plt.ylabel("Concentration (µg/kg ww)")
     plt.savefig(fname+"-"+cols[c]+".pdf", dpi=600)
     
 def plot1(fname,raw,c):
@@ -132,12 +132,12 @@ def plot1(fname,raw,c):
 
     ax[0,0].set_title(cols[c])
     ax[0,0].set_xlabel('log Weight (g)')
-    ax[0,0].set_ylabel('log Concentration (µg/kg)')
+    ax[0,0].set_ylabel('ln concentration (µg/kg ww)')
     
     ax[0,1].set_title('Residuals')
     
     ax[1,0].set_xlabel('Year')
-    ax[1,0].set_ylabel('log Concentration (µg/kg)')
+    ax[1,0].set_ylabel('ln concentration (µg/kg)')
 
     y0 = min(r['Year'])
     y1 = max(r['Year'])
@@ -159,9 +159,7 @@ def genplots():
         # plot1("cod", cod, x)
         # plot1("had", had, x)
         plot2("cod", cod, x)
-        plot2("had", had, x)        
-
-# genplots()
+        plot2("haddock", had, x)        
 
 import numpy as np
 import statsmodels.api as sm
@@ -228,4 +226,5 @@ def tex_close(fname,cname):
     print("Linear regression statistics from fitting log concentration of "+cname+" in "+fname+".")
     print("\\newpage")
 
-make_supplementary()
+# make_supplementary()
+genplots()
