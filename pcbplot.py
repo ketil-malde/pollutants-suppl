@@ -117,6 +117,31 @@ def plot2(fname,raw,c):
     plt.xlabel('Year')
     plt.ylabel("Concentration (µg/kg ww)")
     plt.savefig(fname+"-"+cols[c]+".pdf", dpi=600)
+
+def multiplot2():
+    i = 0
+    fig, ax = plt.subplots(5,2,figsize=(12,20))
+    for fname, raw in [("cod",cod), ("haddock",had)]:
+        for c in range(1,6):
+            r = raw[raw[cols[c]].notnull()]
+            ws = pandas.DataFrame({'W': log(r['weight']), 'Y': r['Year']})
+            vs = log(r[cols[c]])
+            regr = LinearRegression().fit(ws,vs)
+            pred = regr.predict(ws)
+            print(c-1,i)
+            ax[c-1,i].scatter(ws.Y, r[cols[c]], alpha=0.7)
+            xs = []
+            ys = []
+            for x in r.Year.unique():
+                xs.append(x)
+                ys.append(exp(regr.predict([[log(medians[fname]),x]])[0]))
+            ax[c-1,i].plot(xs,ys,alpha=0.7)
+            # ax[c-1,i].set_title(cols[c]+" ("+fname+")")
+            # ax[c-1,i].set_xlabel('Year')
+            ax[c-1,0].set_ylabel(cols[c]+" concentration (µg/kg ww)")
+        ax[0,i].set_title(fname)
+        i=i+1
+    plt.savefig("multiplot.pdf",dpi=300)
     
 def plot1(fname,raw,c):
     r = raw[raw[cols[c]].notnull()]
@@ -237,4 +262,6 @@ def tex_close(fname,cname):
     print("\\newpage")
 
 # make_supplementary()
-genplots()
+# genplots()
+# plot3("cod",cod,1)
+multiplot2()
