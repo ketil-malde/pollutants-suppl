@@ -194,10 +194,13 @@ def linregs():
 def make_supplementary():
     print("\\include{preamble}")
     for name,data in [("cod",cod), ("haddock",had)]:
-        # read data
-        for c in range(1,6):
-            # generate figures
-            # do regression and output
+        print("\\subsection*{Correlation matrix, "+name+"}")
+        print("Correlation matrix for the "+name+" data.")
+        print("\\begin{verbatim}")
+        print(data.corr())
+        print("\\end{verbatim}")
+    for c in range(1,6):
+        for name,data in [("cod",cod), ("haddock",had)]:
             tex_add_fig(name,cols[c])
             plot1(name, data, c)
             tex_open()
@@ -207,7 +210,7 @@ def make_supplementary():
 
     
 def tex_add_fig(fname,cname):
-    print("\\section*{"+cname+", "+fname+"}")
+    print("\\subsection*{"+cname+", "+fname+"}")
     #print("\\begin{figure}")
     print("  \\includegraphics[scale=0.5]{\""+fname+"-all-"+cname+"\"}")
     # print("  \\label{fig:"+fname+":"+cname+"}")
