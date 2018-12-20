@@ -207,28 +207,28 @@ def linreg2(raw,c):
     X = sm.add_constant(ws)
     mod = sm.OLS(vs,X)
     reg = mod.fit()
-    print(reg.summary())
-
+    # print(reg.summary())
     # Alternatively:
     regr = LinearRegression().fit(ws,vs)
     pred = regr.predict(ws)
     r['resid'] = vs-pred
-    print('Coef: ', regr.coef_, 'Incpt: ', regr.intercept_, "MSE: %.2f" % mean_squared_error(vs, pred), 'R²: %.2f' % r2_score(vs, pred))
+    # print('% Coef: ', regr.coef_, 'Incpt: ', regr.intercept_, "MSE: %.2f" % mean_squared_error(vs, pred), 'R²: %.2f' % r2_score(vs, pred))
+    return(reg)
 
 def linregs():    
     for x in range(1,6):
         print(" *** cod: "+cols[x]+" *** ")
-        linreg2(cod, x)
+        print(linreg2(cod, x).summary())
         print(" *** haddock: "+cols[x]+" *** ")
-        linreg2(had, x)    
+        print(linreg2(had, x).summary())
 
 # linregs()    
 
 def make_supplementary():
-    print("\\include{preamble}")
+    print("\\input{preamble}")
     for name,data in [("cod",cod), ("haddock",had)]:
-        print("\\subsection*{Correlation matrix, "+name+"}")
-        print("Correlation matrix for the "+name+" data.")
+        print("\\subsection*{Correlation matrix for "+name+" data}")
+        # print("Correlation matrix for the "+name+" data.")
         print("\\begin{verbatim}")
         print(data.corr())
         print("\\end{verbatim}")
@@ -236,9 +236,8 @@ def make_supplementary():
         for name,data in [("cod",cod), ("haddock",had)]:
             tex_add_fig(name,cols[c])
             plot1(name, data, c)
-            tex_open()
-            linreg2(data,c)
-            tex_close(name,cols[c])
+            reg=linreg2(data,c)
+            tex_summary(name,cols[c],reg)
     print("\\end{document}")
 
     
@@ -251,17 +250,30 @@ def tex_add_fig(fname,cname):
     print("\\newpage")
     #print("\\end{figure}")
 
-def tex_open():
+from math import ceil
+    
+def tex_summary(fname,cname,reg):
+    print("\\subsection*{Regression summary, "+cname+" in "+fname+"}")
+    print("Linear regression statistics from fitting log concentration of "+cname+" in "+fname+".")
+    ci=reg.conf_int(alpha=0.05, cols=None)
+    ydec=100*(1-exp(reg.params.Year))
+    ymin=100*(1-exp(ci[1]['Year']))
+    ymax=100*(1-exp(ci[0]['Year']))
+    winc=100*(2**reg.params.Weight-1)
+    wmin=100*(2**ci[0]['Weight']-1)
+    wmax=100*(2**ci[1]['Weight']-1)
+    
+    pval=("$p<10^{%d}$" % ceil(log(reg.pvalues['Year'])/log(10)))
+    print("There is an observed decline in "+cname+" levels ("+pval+"), at a rate is estimated to be %.2f\\%% (95\\%% CI: %.2f-%.2f) per year." % (ydec,ymin,ymax))
+    print("The estimated increase in "+cname+" level from a doubling in fish weight is %.2f\\%% (95\\%% CI: %.2f-%.2f)." % (winc,wmin,wmax))
     #print("\\begin{figure}")
     print("\\begin{verbatim}")
-
-def tex_close(fname,cname):
+    print(reg.summary())
     print("\\end{verbatim}")
     # print("\\end{figure}")
-    print("Linear regression statistics from fitting log concentration of "+cname+" in "+fname+".")
     print("\\newpage")
 
-# make_supplementary()
+make_supplementary()
 # genplots()
 # plot3("cod",cod,1)
-multiplot2()
+# multiplot2()
