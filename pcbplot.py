@@ -242,9 +242,9 @@ def make_supplementary():
 
     
 def tex_add_fig(fname,cname):
-    print("\\subsection*{"+cname+", "+fname+"}")
+    print("\\subsection*{"+cname+" in "+fname+"}")
     #print("\\begin{figure}")
-    print("  \\includegraphics[scale=0.5]{\""+fname+"-all-"+cname+"\"}")
+    print("  \\begin{center}\\includegraphics[scale=0.6]{\""+fname+"-all-"+cname+"\"}\\end{center}")
     # print("  \\label{fig:"+fname+":"+cname+"}")
     print("Diagram showing log concentration of "+cname+"  measured in "+fname+" by fish weight (top left) and by year (bottom left).  Regression lines are plotted for each year class (above) and for a fish of median size (below).  The respective residuals are shown on the right.\n")
     print("\\newpage")
