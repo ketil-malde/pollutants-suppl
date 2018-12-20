@@ -264,7 +264,8 @@ def tex_summary(fname,cname,reg):
     wmax=100*(2**ci[1]['Weight']-1)
     
     pval=("$p<10^{%d}$" % ceil(log(reg.pvalues['Year'])/log(10)))
-    print("There is an observed decline in "+cname+" levels ("+pval+"), at a rate is estimated to be %.2f\\%% (95\\%% CI: %.2f-%.2f) per year." % (ydec,ymin,ymax))
+    print("There is an observed decline in "+cname+" levels over time ("+pval+"), at a rate is estimated to be %.2f\\%% (95\\%% CI: %.2f-%.2f) per year." % (ydec,ymin,ymax))
+    print("The time required for a 50\\%% reduction in levels is estimated to be %.1f years (%.1f-%.1f)." % (log(0.5)/log(1-ydec/100), log(0.5)/log(1-ymax/100), log(0.5)/log(1-ymin/100)))
     print("The estimated increase in "+cname+" level from a doubling in fish weight is %.2f\\%% (95\\%% CI: %.2f-%.2f)." % (winc,wmin,wmax))
     #print("\\begin{figure}")
     print("\\begin{verbatim}")
