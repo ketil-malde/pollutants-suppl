@@ -202,7 +202,7 @@ import statsmodels.api as sm
 
 def linreg2(raw,c):
     r = raw[raw[cols[c]].notnull()]
-    ws = pandas.DataFrame({'Weight': log(r['weight']), 'Year': r['Year']})
+    ws = pandas.DataFrame({'Weight': log(r['weight']), 'Year': (r['Year']-1992)})
     vs = log(r[cols[c]])
     X = sm.add_constant(ws)
     mod = sm.OLS(vs,X)
