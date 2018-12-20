@@ -184,7 +184,7 @@ def plot1(fname,raw,c):
 
     ax[0,0].legend()
     # fig.show()
-    fig.savefig(fname+"-all-"+cols[c]+".pdf", dpi=100)
+    fig.savefig(fname+"-all-"+cols[c]+".pdf", bbox_inches='tight', dpi=300)
 
 cod = load_data("cod.csv")
 had = load_data("had.csv")
