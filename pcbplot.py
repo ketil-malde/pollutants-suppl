@@ -70,8 +70,8 @@ def plot_all(raw):
         for name, group in raw.groupby('Year'):
             ax[0,c-1].scatter(log(group['weight']), log(group[cols[c]]), label=name, alpha=0.75)
         ax[0,c-1].set_title(cols[c])
-        ax[0,c-1].set_xlabel('log Weight (g)')
-        ax[0,0].set_ylabel('log Concentration (µg/kg)')
+        ax[0,c-1].set_xlabel('ln weight (g)')
+        ax[0,0].set_ylabel('ln concentration (µg/kg)')
 
         ax[1,c-1].scatter(raw['Year'], log(raw[cols[c]]), alpha=0.65)
         ax[1,c-1].set_xlabel('Year')
@@ -166,7 +166,7 @@ def plot1(fname,raw,c):
         ax[1,1].scatter(group['Year'], group['resid'], alpha=0.65)
 
     ax[0,0].set_title(cols[c])
-    ax[0,0].set_xlabel('log Weight (g)')
+    ax[0,0].set_xlabel('ln weight (g)')
     ax[0,0].set_ylabel('ln concentration (µg/kg ww)')
     
     ax[0,1].set_title('Residuals')
