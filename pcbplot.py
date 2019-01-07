@@ -71,11 +71,11 @@ def plot_all(raw):
             ax[0,c-1].scatter(log(group['weight']), log(group[cols[c]]), label=name, alpha=0.75)
         ax[0,c-1].set_title(cols[c])
         ax[0,c-1].set_xlabel('ln weight (g)')
-        ax[0,0].set_ylabel('ln concentration (µg/kg)')
+        ax[0,0].set_ylabel('ln concentration (µg/kg ww)')
 
         ax[1,c-1].scatter(raw['Year'], log(raw[cols[c]]), alpha=0.65)
         ax[1,c-1].set_xlabel('Year')
-        ax[1,0].set_ylabel('log Concentration (µg/kg)')
+        ax[1,0].set_ylabel('ln concentration (µg/kg ww)')
 
     # seaborn has smoothing: sns.lmplot(x="total_bill", y="tip", data=tips, lowess=True);
 
@@ -172,7 +172,7 @@ def plot1(fname,raw,c):
     ax[0,1].set_title('Residuals')
     
     ax[1,0].set_xlabel('Year')
-    ax[1,0].set_ylabel('ln concentration (µg/kg)')
+    ax[1,0].set_ylabel('ln concentration (µg/kg ww)')
 
     y0 = min(r['Year'])
     y1 = max(r['Year'])
@@ -246,7 +246,7 @@ def tex_add_fig(fname,cname):
     #print("\\begin{figure}")
     print("  \\begin{center}\\includegraphics[scale=0.6]{\""+fname+"-all-"+cname+"\"}\\end{center}")
     # print("  \\label{fig:"+fname+":"+cname+"}")
-    print("Diagram showing log concentration of "+cname+"  measured in "+fname+" by fish weight (top left) and by year (bottom left).  Regression lines are plotted for each year class (above) and for a fish of median size (below).  The respective residuals are shown on the right.\n")
+    print("Diagram showing the log-transformed concentration of "+cname+"  measured in "+fname+" by fish weight (top left) and by year (bottom left).  Regression lines are plotted for each year class (above) and for a fish of median size (below).  The respective residuals are shown on the right.\n")
     print("\\newpage")
     #print("\\end{figure}")
 
@@ -254,7 +254,7 @@ from math import ceil
     
 def tex_summary(fname,cname,reg):
     print("\\subsection*{Regression summary, "+cname+" in "+fname+"}")
-    print("Linear regression statistics from fitting log concentration of "+cname+" in "+fname+".")
+    print("Linear regression statistics from fitting the log-transformed concentration of "+cname+" in "+fname+".")
     ci=reg.conf_int(alpha=0.05, cols=None)
     ydec=100*(1-exp(reg.params.Year))
     ymin=100*(1-exp(ci[1]['Year']))
