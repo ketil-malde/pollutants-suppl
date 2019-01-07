@@ -4,6 +4,8 @@ from pandas.plotting import scatter_matrix
 
 pandas.set_option('display.width', 190)
 
+output_format = ".tiff"
+
 cols = ['Year','7PCBs','ΣDDTs','ΣHCHs','HCB','TNC','weight']
 
 
@@ -116,7 +118,7 @@ def plot2(fname,raw,c):
     plt.suptitle(cols[c]+" ("+fname+")")
     plt.xlabel('Year')
     plt.ylabel("Concentration (µg/kg ww)")
-    plt.savefig(fname+"-"+cols[c]+".pdf", dpi=600)
+    plt.savefig(fname+"-"+cols[c]+output_format, dpi=600)
 
 def multiplot2():
     i = 0
@@ -141,7 +143,7 @@ def multiplot2():
             ax[c-1,0].set_ylabel(cols[c]+" concentration (µg/kg ww)")
         ax[0,i].set_title(fname)
         i=i+1
-    plt.savefig("multiplot.pdf",dpi=300)
+    plt.savefig("multiplot"+output_format,dpi=300)
     
 def plot1(fname,raw,c):
     r = raw[raw[cols[c]].notnull()]
