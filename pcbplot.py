@@ -256,6 +256,9 @@ from math import ceil
     
 def tex_summary(fname,cname,reg):
     print("\\subsection*{Regression summary, "+cname+" in "+fname+"}")
+    print("Regression formula: ")
+    print("$ c = %.2f \cdot %.2f^{y-1992} \cdot w^{%.2f} $\n" % (exp(reg.params.const),exp(reg.params.Year),reg.params.Weight))
+
     print("Linear regression statistics from fitting the log-transformed concentration of "+cname+" in "+fname+".")
     ci=reg.conf_int(alpha=0.05, cols=None)
     ydec=100*(1-exp(reg.params.Year))
