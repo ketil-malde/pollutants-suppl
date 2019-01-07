@@ -33,4 +33,13 @@ fish weight $w$ and year $y$.
 ln(C) \sim \alpha ln(w) + \beta y + k
 \end{equation*}
 
+In some cases samples from specific years appear to be correlated,
+probably due to differences in the sampled populations.  This implies
+heteroscedacity in the residuals. While this does not cause bias in
+the regression coefficients, it can result in values for $p$ and $R^2$
+that are smaller than they should be, and also overly optimistic
+confidence interval estimates.  Some caution is therefore adviced in
+interpreting these results.
+
+% source: http://statisticsbyjim.com/regression/heteroscedasticity-regression/
 
