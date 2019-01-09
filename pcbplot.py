@@ -224,9 +224,11 @@ def linregs():
         print(" *** haddock: "+cols[x]+" *** ")
         print(linreg2(had, x).summary())
 
-# linregs()    
+import sys
 
 def make_supplementary():
+    keep = sys.stdout
+    sys.stdout = open("supplementary.tex","w")
     print("\\input{preamble}")
     for name,data in [("cod",cod), ("haddock",had)]:
         print("\\subsection*{Correlation matrix for "+name+" data}")
@@ -241,7 +243,7 @@ def make_supplementary():
             reg=linreg2(data,c)
             tex_summary(name,cols[c],reg)
     print("\\end{document}")
-
+    sys.stdout = keep
     
 def tex_add_fig(fname,cname):
     print("\\subsection*{"+cname+" in "+fname+"}")
