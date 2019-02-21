@@ -20,4 +20,5 @@ And the happy news is that as expected (but quite undercommunicated, I
 think), pollutant levels have decreased substantially in the last
 decades. 
 
-Paper available here: <http://authors.elsevier.com/sd/article/S0013935119300829>
+Paper available here, please cite it if you make use of data or code
+from this repository: <http://authors.elsevier.com/sd/article/S0013935119300829>
