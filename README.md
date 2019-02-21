@@ -3,7 +3,9 @@
 Some colleagues have measured pollutants (PCB, DDT, HCB, etc) in
 arctic cod and haddock.  I was asked to assist with data analysis and
 plotting for the paper, and decided this was a good opportunity to
-learn more about the Python libraries 'pandas' and 'matplotlib'.
+learn more about the Python libraries. I started out with 'pandas',
+'matplotlib', and 'scikit-learn', but ended up using the more
+full-featured regression from the 'statsmodels' library.
 
 In the end, my program reads the data as CSV files, and outputs plots
 and a LaTeX source file that produces the supplementary document as a
